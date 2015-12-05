@@ -18,8 +18,7 @@ spiik.backgroundView = function(video){
 
         attached: function(){
             var videoEl = this.getYouTubeAutoPlayLink(video);
-            var videoHolder = this.$el.querySelector("#videoHolder");
-            videoHolder.appendChild(videoEl);
+            this.$els.videoHolder.appendChild(videoEl);
         }
     });
 };

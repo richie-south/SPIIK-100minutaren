@@ -3,9 +3,9 @@
 var spiik = spiik || {};
 
 spiik.init = function(){
-    var settings = new spiik.Settings();
-    settings.createView();
-    settings.mountView();
+    var settings = spiik.settings(function(){
+        var counterView = spiik.counterView();
+    });
 };
 
 window.onload = spiik.init;

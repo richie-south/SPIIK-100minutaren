@@ -9,29 +9,22 @@ spiik.Counter = function(endTimeHour, endTimeMinute, startTimeHour, startTimeMin
     this.seconds = startTimeSecond || 0;
     this.hour = startTimeHour || 0;
     this.newMinute = false;
-    this.Interval = 1000;
-    this.Enable = false;
-    var time, that;
+    this.Interval = 1000; // 1sec
+    this.time = null;
     var timerId = 0;
+};
 
-    // starts timer
-    this.start = function(callback){
-        this.Enable = true;
-        that = this;
+// starts timer
+spiik.Counter.prototype.start = function(callback){
+    this.timerId = setInterval(function(){
+        this.time = this.tick();
+        callback(this.time);
+    }.bind(this), this.Interval);
+};
 
-        if (that.Enable){
-            that.timerId = setInterval(function(){
-                time = that.tick();
-                callback(time);
-            }, that.Interval);
-        }
-    };
-
-    // stops timer
-    this.stop = function(){
-        that.Enable = false;
-        clearInterval(that.timerId);
-    };
+// stops timer
+spiik.Counter.prototype.stop = function(){
+    clearInterval(this.timerId);
 };
 
 spiik.Counter.prototype.tick = function(){
@@ -40,13 +33,14 @@ spiik.Counter.prototype.tick = function(){
         this.newMinute = true;
         this.seconds = 0;
         this.minutes++;
-
         if(this.minutes == 60){
             this.minutes = 0;
             this.hour = 1;
         }
     }
-
+    if(this.isTimeEnd()){
+        this.stop();
+    }
     return new Date(
         "0000",
         "0",

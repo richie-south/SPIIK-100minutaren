@@ -22,21 +22,13 @@ spiik.counterView = function(){
 
         attached: function(){
             var counter = new spiik.Counter(1, 40);
-            var timeCounterEl = this.$el.querySelector("#timeCounter");
-            var shotTimesEl = this.$el.querySelector("#shotCounter");
 
             counter.start(function(timeUpdate){
 
                 if(counter.isNewMinute()){
-                    shotTimesEl.innerHTML = counter.totalNrOfMinutes();
+                    this.$els.shotCounter.textContent = counter.totalNrOfMinutes();
                 }
-                if(counter.isTimeEnd()){
-                    console.log("stop");
-                    counter.stop();
-                }
-
-                timeCounterEl.innerHTML = this.timeToString(timeUpdate.getHours(), timeUpdate.getMinutes(), timeUpdate.getSeconds());
-
+                this.$els.timeCounter.textContent = this.timeToString(timeUpdate.getHours(), timeUpdate.getMinutes(), timeUpdate.getSeconds());
             }.bind(this));
         }
     });
